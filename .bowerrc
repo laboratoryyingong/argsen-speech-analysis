@@ -1,0 +1,8 @@
+{
+    "directory": "app/components/",
+    "ignoredDependencies": [
+        "jquery"
+    ],
+    "color": true,
+    "timeout": 60000
+  }

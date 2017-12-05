@@ -1,0 +1,24 @@
+<!doctype html>  
+<html lang="en">  
+    <head>
+
+    </head>
+    <body>
+        <h1>Speech Testing</h1>
+        <div id="future"></div>
+        <form id="form" id="chat_form">
+            <input id="chat_input" type="text">
+            <input type="submit" value="Send">
+        </form>
+        <script src="/components/jQuery/dist/jquery.min.js"></script>
+        <script src="/components/msr/MediaStreamRecorder.min.js"> </script>  
+        <script src="/socket.io/socket.io.js"></script> 
+        <script src="/public/js/index.js"></script>
+        <script>  
+            var socket = io.connect('http://localhost:3999');
+            socket.on('connect', function(data) {
+                socket.emit('join', 'Hello World from client');
+            });
+        </script>         
+    </body>
+</html>  
