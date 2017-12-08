@@ -1,15 +1,34 @@
 <!doctype html>  
 <html lang="en">  
     <head>
-
+        <link rel="stylesheet" type="text/css" href="/components/skeleton/css/normalize.css">
+        <link rel="stylesheet" type="text/css" href="/components/skeleton/css/skeleton.css">
+        <link rel="stylesheet" type="text/css" href="/components/components-font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/style.css">
     </head>
     <body>
-        <h1>Speech Testing</h1>
-        <div id="future"></div>
-        <form id="form" id="chat_form">
-            <input id="chat_input" type="text">
-            <input type="submit" value="Send">
-        </form>
+        <div class="container argsen-speech-heading-warp">
+            <div class="row">
+                <h3>Argsen Speech</h3>
+            </div> 
+        </div>
+
+        <div class="container argsen-speech-content-warp">
+            <form>
+                <h5 >Message with IBM Watson</h5>
+                <textarea class="u-full-width" placeholder="New Message coming ..." id="Message" cols="30" rows="10" readonly></textarea>
+            </form>
+            <div class="row">
+                <div class="one-half column">
+                    <button class="button-primary" id="start_to_record">Start Record & Output text  <i class="fa fa-play" aria-hidden="true"></i></button>
+                </div>
+                <div class="one-half column">
+                    <button class="button-green" id="clear_record">Clear historical record  <i class="fa fa-trash" aria-hidden="true"></i></button>
+                </div>
+                
+            </div>
+        </div>
+
         <script src="/components/jQuery/dist/jquery.min.js"></script>
         <script src="/components/msr/MediaStreamRecorder.min.js"> </script>  
         <script src="/socket.io/socket.io.js"></script> 

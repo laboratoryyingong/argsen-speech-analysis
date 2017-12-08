@@ -4,3 +4,4 @@ components
 test
 tests
 package-lock.json
+app/audios/

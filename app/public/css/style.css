@@ -1,0 +1,40 @@
+.argsen-speech-heading-warp{
+    text-align: center;
+    padding: 1em;
+}
+
+.argsen-speech-content-warp{
+    text-align: center;
+    padding: 1em;
+}
+
+.argsen-speech-content-warp h5{
+    text-align: left;
+}
+
+.argsen-speech-content-warp textarea{
+    min-height: 200px;
+}
+
+.button.button-red,
+button.button-red,
+input[type="submit"].button-red,
+input[type="reset"].button-red,
+input[type="button"].button-red {
+  color: #FFF;
+  background-color: #f43c0b;
+  border-color: #f43c0b; }
+.button.button-red:hover,
+button.button-red:hover,
+input[type="submit"].button-red:hover,
+input[type="reset"].button-red:hover,
+input[type="button"].button-red:hover,
+.button.button-red:focus,
+button.button-red:focus,
+input[type="submit"].button-red:focus,
+input[type="reset"].button-red:focus,
+input[type="button"].button-red:focus {
+  color: #FFF;
+  background-color: #f43c0b;
+  border-color: #f43c0b; }
+

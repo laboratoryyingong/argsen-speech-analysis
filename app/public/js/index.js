@@ -3,6 +3,7 @@
  * @author: yin_gong<max.g.laboratory@gmail.com>
  */
 var socket = io.connect('http://localhost:3999');
+var state = false;
 
 if (!window.jQuery) {
     var script = document.createElement('script');
@@ -15,14 +16,19 @@ var mediaConstraints = {
     audio: true
 };
 
+$("#clear_record").on("click", function(){
+    $('#Message').val('');
+})
+
 navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
 
 //socket
-
-socket.on('connect', function (data) {
-    socket.emit('join', 'Hello World from client');
-});
-
+socket.on('transcription', function(data){
+    var string = data.replace(/[^\w\s]/gi, '');
+    var $Message = $('#Message');
+    var previous_message = $Message.val();
+    $Message.val(previous_message + string);
+})
 
 function onMediaSuccess(stream) {
     var mediaRecorder = new MediaStreamRecorder(stream);
@@ -30,9 +36,38 @@ function onMediaSuccess(stream) {
     mediaRecorder.ondataavailable = function (blob) {
         // POST/PUT "Blob" using FormData/XHR2
         // var blobURL = URL.createObjectURL(blob);
-        console.log(blob);
+        // console.log(blobURL);
+        socket.emit('data', {
+            "blob": blob
+        });
     };
-    mediaRecorder.start(3000);
+
+    var $start_to_record = $('#start_to_record');
+
+    $start_to_record.on("click", function(){
+        
+        if(state){
+            mediaRecorder.stop();
+            state = false;
+            var $start_to_record = $('#start_to_record');
+            $start_to_record.empty();
+            $start_to_record.toggleClass('button-primary button-red');
+            $start_to_record.text('Start Record & Output text ');
+            $start_to_record.append('<i class="fa fa-play" aria-hidden="true"></i>');
+
+        }else{
+            mediaRecorder.start(3000);
+            state = true;
+            var $start_to_record = $('#start_to_record');
+            $start_to_record.empty();
+            $start_to_record.toggleClass('button-primary button-red');
+            $start_to_record.text('Recording ... ');
+            $start_to_record.append('<i class="fa fa-microphone" aria-hidden="true"></i>');
+        }
+
+        
+    })
+
 }
 
 function onMediaError(e) {

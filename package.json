@@ -24,8 +24,10 @@
   },
   "homepage": "https://github.com/laboratoryyingong/argsen-speech-analysis#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "chalk": "^2.3.0",
     "express": "^4.16.2",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "watson-developer-cloud": "^3.0.2"
   }
 }
