@@ -5,3 +5,5 @@ test
 tests
 package-lock.json
 app/audios/
+
+app/transcription/transcription\.txt
