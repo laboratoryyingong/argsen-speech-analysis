@@ -29,6 +29,10 @@
     width: 150px;
 }
 
+.error{
+    border: 2px solid #f43c0b !important;
+}
+
 .button.button-red,
 button.button-red,
 input[type="submit"].button-red,

@@ -1,0 +1,49 @@
+<!doctype html>  
+<html lang="en">  
+    <head>
+        <meta name="robots" content="noindex">
+        <link rel="stylesheet" type="text/css" href="/components/skeleton/css/normalize.css">
+        <link rel="stylesheet" type="text/css" href="/components/skeleton/css/skeleton.css">
+        <link rel="stylesheet" type="text/css" href="/components/components-font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/style.css">
+    </head>
+    <body>
+
+        <div class="container argsen-speech-heading-warp">
+            <div class="row">
+                <h3>Speech Analysis</h3>
+                <img src="/public/img/logo.jpg" alt="argsen logo">
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="one-half column">
+                    <label for="account">Account</label>
+                    <input class="u-full-width" type="text" placeholder="please input account ..." id="account">
+                    <label for="password">Password</label>
+                    <input class="u-full-width" type="password" placeholder="please input password ..." id="password">
+                    <button class="button-primary" id="login">Login <i class="fa fa-sign-in" aria-hidden="true"></i></button>
+                </div>
+                <div class="one-half column">
+                    <br>
+                    <ul>
+                        <li>Argsen Speech Analysis Server Introduction</li>
+                        <li>
+                            Speech to Text Demo
+                            <ul>
+                                <li>IBM Waston Speech to Text API</li>
+                                <li>Google Speech to Text Version 1</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="/components/jQuery/dist/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script> 
+        <script src="/public/js/login.js"></script>        
+    </body>
+</html>  

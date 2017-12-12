@@ -7,12 +7,16 @@ const fs = require('fs');
 const http = require('http');
 const SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
 const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
-console.log(__dirname)
 const config = require(__dirname + '/../../env.js')['production'];
 
 const speech_to_text = new SpeechToTextV1(config.WASTON);
 
 const winston = require('winston');
+winston.configure({
+    transports: [
+        new (winston.transports.File)({ filename: __dirname + '/../../app/log/' + 'speech_log.log' })
+    ]
+});
 
 const File = {
 
@@ -66,7 +70,7 @@ const File = {
 
         child = exec(command, function (err, stdout, stderr) {
             if (err !== null) {
-                console.log('exec error: ' + err);
+                winston.error('exec error: ' + err);
             }
 
             //  let time=stderr.substring(stderr.lastIndexOf("Duration: ")+10,stderr.lastIndexOf(", start:"));

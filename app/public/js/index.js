@@ -15,6 +15,11 @@ if (!window.jQuery) {
     document.getElementsByTagName('head')[0].appendChild(script);
 }
 
+//auto exit after 10 mins
+window.setTimeout(function () {
+    window.location.href = "/";
+}, 600000);
+
 var mediaConstraints = {
     audio: true
 };
