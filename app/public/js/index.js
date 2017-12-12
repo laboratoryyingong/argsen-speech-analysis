@@ -2,8 +2,11 @@
  * @file: ./app/public/js/index.js
  * @author: yin_gong<max.g.laboratory@gmail.com>
  */
-var socket = io.connect('http://localhost:3999');
-var state = false;
+
+var server_url = 'http://localhost:8080';
+var socket = io.connect(server_url);
+var wastonState = false;
+var googleState = false;
 
 if (!window.jQuery) {
     var script = document.createElement('script');
@@ -16,57 +19,108 @@ var mediaConstraints = {
     audio: true
 };
 
-$("#clear_record").on("click", function(){
-    $('#Message').val('');
+$("#clear_record_waston").on("click", function(){
+    $('#Message_waston').val('');
+})
+
+$("#clear_record_google").on("click", function(){
+    $('#Message_google').val('');
 })
 
 navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
 
 //socket
-socket.on('transcription', function(data){
+socket.on('waston-transcription', function(data){
     var string = data.replace(/[^\w\s]/gi, '');
-    var $Message = $('#Message');
-    var previous_message = $Message.val();
-    $Message.val(previous_message + string);
+    var $Message_waston = $('#Message_waston');
+    var previous_message = $Message_waston.val();
+    $Message_waston.val(previous_message + string);
+})
+
+socket.on('google-transcription', function(data){
+    var string = data.replace(/[^\w\s]/gi, '');
+    var $Message_google = $('#Message_google');
+    var previous_message = $Message_google.val();
+    $Message_google.val(previous_message + string);
 })
 
 function onMediaSuccess(stream) {
-    var mediaRecorder = new MediaStreamRecorder(stream);
-    mediaRecorder.mimeType = 'audio/wav'; // check this line for audio/wav
-    mediaRecorder.ondataavailable = function (blob) {
-        // POST/PUT "Blob" using FormData/XHR2
-        // var blobURL = URL.createObjectURL(blob);
-        // console.log(blobURL);
-        socket.emit('data', {
+
+    /**
+     * stream to waston
+     */
+
+    var wastonMediaRecorder = new MediaStreamRecorder(stream);
+    wastonMediaRecorder.mimeType = 'audio/wav'; // check this line for audio/wav
+    wastonMediaRecorder.ondataavailable = function (blob) {
+        socket.emit('waston-data', {
             "blob": blob
         });
     };
 
-    var $start_to_record = $('#start_to_record');
+    var $start_to_record_waston = $('#start_to_record_waston');
 
-    $start_to_record.on("click", function(){
+    $start_to_record_waston.on("click", function(){
         
-        if(state){
-            mediaRecorder.stop();
-            state = false;
-            var $start_to_record = $('#start_to_record');
-            $start_to_record.empty();
-            $start_to_record.toggleClass('button-primary button-red');
-            $start_to_record.text('Start Record & Output text ');
-            $start_to_record.append('<i class="fa fa-play" aria-hidden="true"></i>');
+        if(wastonState){
+            wastonMediaRecorder.stop();
+            wastonState = false;
+            var $start_to_record_waston = $('#start_to_record_waston');
+            $start_to_record_waston.empty();
+            $start_to_record_waston.toggleClass('button-waston button-red');
+            $start_to_record_waston.text('Start Record & Output text ');
+            $start_to_record_waston.append('<i class="fa fa-play" aria-hidden="true"></i>');
 
         }else{
-            mediaRecorder.start(3000);
-            state = true;
-            var $start_to_record = $('#start_to_record');
-            $start_to_record.empty();
-            $start_to_record.toggleClass('button-primary button-red');
-            $start_to_record.text('Recording ... ');
-            $start_to_record.append('<i class="fa fa-microphone" aria-hidden="true"></i>');
+            wastonMediaRecorder.start(1500);
+            wastonState = true;
+            var $start_to_record_waston = $('#start_to_record_waston');
+            $start_to_record_waston.empty();
+            $start_to_record_waston.toggleClass('button-waston button-red');
+            $start_to_record_waston.text('Recording ... ');
+            $start_to_record_waston.append('<i class="fa fa-microphone" aria-hidden="true"></i>');
         }
 
         
     })
+
+    /**
+     * stream to google
+     */
+
+    var googleMediaRecorder = new MediaStreamRecorder(stream);
+    googleMediaRecorder.mimeType = 'audio/pcm'; // check this line for audio/wav
+    googleMediaRecorder.ondataavailable = function (blob) {
+        socket.emit('google-data', {
+            "blob": blob
+        });
+    };
+
+    var $start_to_record_google = $('#start_to_record_google');
+
+    $start_to_record_google.on("click", function(){
+        
+        if(googleState){
+            googleMediaRecorder.stop();
+            googleState = false;
+            var $start_to_record_google = $('#start_to_record_google');
+            $start_to_record_google.empty();
+            $start_to_record_google.toggleClass('button-blue button-red');
+            $start_to_record_google.text('Start Record & Output text ');
+            $start_to_record_google.append('<i class="fa fa-play" aria-hidden="true"></i>');
+
+        }else{
+            googleMediaRecorder.start(1500);
+            googleState = true;
+            var $start_to_record_google = $('#start_to_record_google');
+            $start_to_record_google.empty();
+            $start_to_record_google.toggleClass('button-blue button-red');
+            $start_to_record_google.text('Recording ... ');
+            $start_to_record_google.append('<i class="fa fa-microphone" aria-hidden="true"></i>');
+        }
+
+    })
+
 
 }
 

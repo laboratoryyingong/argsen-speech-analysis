@@ -13,7 +13,7 @@ const io = require('socket.io')(httpServer);
 const chalk = require('chalk');
 const log = console.log;
 
-const config = require('./env.js')['development'];
+const config = require('./env.js')['production'];
 
 const PORT = config.PORT;
 
@@ -28,39 +28,72 @@ app.get('/', function(req, res,next) {
 httpServer.listen(PORT);
 log(chalk.white('Argsen Speech server on port : ' + PORT));
 
-io.on('connection', function(client) {  
-    console.log('Client connected...');
+io.on('connection', function(client) { 
+    
+    var address = client.handshake.address;
+    
+    log(chalk.yellow('Client connected... @ ' + js_yyyy_mm_dd_hh_mm_ss() + " IP Address : " + address));
 
     client.on('join', function(data) {
         console.log(data);
     });
 
-    client.on('data', function(data){
-  
+    client.on('google-data', function(data){
+
         fs.writeFile(__dirname + '/app/audios/audio_blob_test.wav', data.blob, function(err) {
             if(err) return console.log(err);
 
-            File.convert(__dirname + '/app/audios/audio_blob_test.wav', function(err, path){
+            File.convert(__dirname + '/app/audios/audio_blob_test.wav', function(err, filename){
 
                 if(err) return console.log(err);
 
-                File.speechtotext(path, function(name, data){
+                File.streamingMicRecognize(filename, 'FLAC', 16000, 'en-US', function(name, data){
                     switch (name) {
                         case 'Data:':
-                            log(chalk.yellow("new trascription is sending to client ... @ " + js_yyyy_mm_dd_hh_mm_ss()))
-                            io.emit('transcription', data);
+                            log(chalk.yellow("new trascription from google API ... @ " + js_yyyy_mm_dd_hh_mm_ss() + " ") + chalk.red(JSON.stringify(data)))
+                            io.emit('google-transcription', data);
                             break;
-                    
+        
+                        default:
+                            break;
+                    }
+                })
+
+            })
+        })
+
+    })
+
+    client.on('waston-data', function(data){
+
+        fs.writeFile(__dirname + '/app/audios/audio_blob_test.wav', data.blob, function (err) {
+            if (err) return console.log(err);
+
+            File.convert(__dirname + '/app/audios/audio_blob_test.wav', function (err, path) {
+
+                if (err) return console.log(err);
+
+                File.speechtotext(path, function (name, data) {
+                    switch (name) {
+                        case 'Data:':
+                            log(chalk.yellow("new trascription from IBM Waston ... @ " + js_yyyy_mm_dd_hh_mm_ss() + " ") + chalk.red(data))
+                            io.emit('waston-transcription', data);
+                            break;
+
                         default:
                             break;
                     }
                 });
 
             });
-        
+
         });
 
     })
+
+    client.on('disconnect', function(){ 
+        log(chalk.red('Client dis-connected... @ ' + js_yyyy_mm_dd_hh_mm_ss() + " IP Address : " + address))
+    });
 
 });
 

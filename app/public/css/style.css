@@ -25,6 +25,10 @@
     min-height: 200px;
 }
 
+.argsen-speech-content-warp section h5 img{
+    width: 150px;
+}
+
 .button.button-red,
 button.button-red,
 input[type="submit"].button-red,
@@ -47,3 +51,47 @@ input[type="button"].button-red:focus {
   background-color: #f43c0b;
   border-color: #f43c0b; }
 
+.button.button-blue,
+button.button-blue,
+input[type="submit"].button-blue,
+input[type="reset"].button-blue,
+input[type="button"].button-blue {
+color: #FFF;
+background-color: #4c8af2;
+border-color: #4c8af2; }
+.button.button-blue:hover,
+button.button-blue:hover,
+input[type="submit"].button-blue:hover,
+input[type="reset"].button-blue:hover,
+input[type="button"].button-blue:hover,
+.button.button-blue:focus,
+button.button-blue:focus,
+input[type="submit"].button-blue:focus,
+input[type="reset"].button-blue:focus,
+input[type="button"].button-blue:focus {
+color: #FFF;
+background-color: #4c8af2;
+border-color: #4c8af2; }
+
+
+.button.button-waston,
+button.button-waston,
+input[type="submit"].button-waston,
+input[type="reset"].button-waston,
+input[type="button"].button-waston {
+color: #FFF;
+background-color: #00a79d;
+border-color: #00a79d; }
+.button.button-waston:hover,
+button.button-waston:hover,
+input[type="submit"].button-waston:hover,
+input[type="reset"].button-waston:hover,
+input[type="button"].button-waston:hover,
+.button.button-waston:focus,
+button.button-waston:focus,
+input[type="submit"].button-waston:focus,
+input[type="reset"].button-waston:focus,
+input[type="button"].button-waston:focus {
+color: #FFF;
+background-color: #00a79d;
+border-color: #00a79d; }

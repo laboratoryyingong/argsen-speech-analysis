@@ -15,19 +15,40 @@
         </div>
 
         <div class="container argsen-speech-content-warp">
-            <form>
-                <h5 >Message with IBM Watson</h5>
-                <textarea class="u-full-width" placeholder="New Message coming ..." id="Message" cols="30" rows="10" readonly></textarea>
-            </form>
-            <div class="row">
-                <div class="one-half column">
-                    <button class="button-primary" id="start_to_record">Start Record & Output text  <i class="fa fa-play" aria-hidden="true"></i></button>
+            <section>
+                <h5>Message with IBM Watson <img src="/public/img/IBM-Watson.jpg" alt="IBM logo"></h5>         
+                <textarea class="u-full-width" placeholder="New Message coming ..." id="Message_waston" cols="30" rows="10" readonly></textarea>
+                <div class="row">
+                    <div class="one-half column">
+                        <button class="button-waston" id="start_to_record_waston">Start Record & Output text
+                            <i class="fa fa-play" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="one-half column">
+                        <button class="button-green" id="clear_record_waston">Clear historical record
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="one-half column">
-                    <button class="button-green" id="clear_record">Clear historical record  <i class="fa fa-trash" aria-hidden="true"></i></button>
+            </section>
+            <br>
+            <section>
+                <h5>Message with Google <img src="/public/img/speech-api.png" alt="Google logo"></h5>
+                <textarea class="u-full-width" placeholder="New Message coming ..." id="Message_google" cols="30" rows="10" readonly></textarea>
+                <div class="row">
+                    <div class="one-half column">
+                        <button class="button-blue" id="start_to_record_google">Start Record & Output text
+                            <i class="fa fa-play" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="one-half column">
+                        <button class="button-green" id="clear_record_google">Clear historical record
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
-                
-            </div>
+            </section>
+
         </div>
 
         <script src="/components/jQuery/dist/jquery.min.js"></script>

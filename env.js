@@ -5,9 +5,18 @@
 
 module.exports = {
     "development": {
-        "PORT": 3999
+        "PORT": 3999,
+        "WASTON": {
+            username: '',
+            password: ''
+        }
     },
     "production": {
-        "PORT": 80
-    }
+        "PORT": 8080,
+        "WASTON": {
+            username: '',
+            password: ''
+        }
+    },
+
 }

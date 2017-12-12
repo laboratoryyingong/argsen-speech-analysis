@@ -7,3 +7,5 @@ package-lock.json
 app/audios/
 
 app/transcription/transcription\.txt
+
+app/key/Argsen-Speech-11102017-f24ef4a4e6b4\.json
