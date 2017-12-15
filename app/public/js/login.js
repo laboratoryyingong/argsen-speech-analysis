@@ -3,7 +3,10 @@
  * @author: yin_gong<max.g.laboratory@gmail.com>
  */
 
-var server_url = 'http://localhost:8080';
+var env = ENV.development
+
+var server_url = env.server_url;
+
 var socket = io.connect(server_url);
 
 if (!window.jQuery) {
@@ -26,9 +29,6 @@ socket.on('argsen-login-statue', function(message){
 $login.on("click", function(){
     var $account = $("#account");
     var $password = $("#password");
-
-    console.log($account.val())
-    console.log($password.val())
 
     if($account.val().trim().length === 0){
         $account.addClass("error");

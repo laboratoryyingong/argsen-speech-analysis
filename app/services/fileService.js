@@ -12,9 +12,10 @@ const config = require(__dirname + '/../../env.js')['production'];
 const speech_to_text = new SpeechToTextV1(config.WASTON);
 
 const winston = require('winston');
-winston.configure({
+const logger = new (winston.Logger)({
     transports: [
-        new (winston.transports.File)({ filename: __dirname + '/../../app/log/' + 'speech_log.log' })
+      new (winston.transports.Console)({ level: 'debug' }),
+      new (winston.transports.File)({ filename: __dirname + '/../../app/log/' + 'speech_log.log' })
     ]
 });
 
@@ -105,13 +106,13 @@ const File = {
         // Create a recognize stream
         const recognizeStream = client
             .streamingRecognize(request)
-            .on('error', () => { 
-                console.error
+            .on('error', (err) => { 
+                logger.error(err)
             })
             .on('data', data => {
 
-                if(data.results.length > 0 && !data.results[0].alternatives[0].transcript){
-                    return cb('Data:', data.results[0].alternatives[0].transcript);
+                if(data.results.length > 0){
+                    return cb('Data:', data.results[0].alternatives[0].transcript)
                 }else{
                     return cb('Data:', ' **** Google Service Down ****'); 
                 }

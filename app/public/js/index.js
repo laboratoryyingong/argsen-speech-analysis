@@ -2,8 +2,10 @@
  * @file: ./app/public/js/index.js
  * @author: yin_gong<max.g.laboratory@gmail.com>
  */
+var env = ENV.development
 
-var server_url = 'http://localhost:8080';
+var server_url = env.server_url;
+
 var socket = io.connect(server_url);
 var wastonState = false;
 var googleState = false;
@@ -94,7 +96,7 @@ function onMediaSuccess(stream) {
      */
 
     var googleMediaRecorder = new MediaStreamRecorder(stream);
-    googleMediaRecorder.mimeType = 'audio/pcm'; // check this line for audio/wav
+    googleMediaRecorder.mimeType = 'audio/wav'; // check this line for audio/wav
     googleMediaRecorder.ondataavailable = function (blob) {
         socket.emit('google-data', {
             "blob": blob

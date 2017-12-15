@@ -3,22 +3,46 @@
  * @author yin_gong<max.g.laboratory@gmail.com>
  */
 
+const ENV = 'development';
+
 const fs = require('fs');
 const express = require('express');
 const app = express();
-const https = require('https');
-const httpServer = require('http').createServer(app);
-const io = require('socket.io')(httpServer);
 
 const chalk = require('chalk');
+
 const winston = require('winston');
-winston.configure({
+const logger = new (winston.Logger)({
     transports: [
-        new (winston.transports.File)({ filename: __dirname + '/app/log/' + 'speech_log.log' })
+      new (winston.transports.Console)({ level: 'debug' }),
+      new (winston.transports.File)({ filename: __dirname + '/app/log/' + 'speech_log.log' })
     ]
 });
 
-const config = require('./env.js')['production'];
+let server = null;
+let io = null;
+
+const key = fs.readFileSync(__dirname + '/app/key/encryption/argsen_com.key');
+const cert = fs.readFileSync(__dirname + '/app/key/encryption/ssl-bundle.crt');
+
+const options = {
+    key: key,
+    cert: cert
+};
+
+if (ENV === 'development') {
+
+    server = require('http').createServer(app);
+    io = require('socket.io')(server);
+
+} else if (ENV === 'production') {
+
+    server = require('https').createServer(options, app);
+    io = require('socket.io')(server)
+
+}
+
+const config = require('./env.js')[ENV];
 
 const PORT = config.PORT;
 
@@ -27,7 +51,7 @@ const File = require('./app/services/fileService');
 app.use("/components", express.static(__dirname + '/app/components'));  
 app.use("/public", express.static(__dirname + '/app/public'));  
 
-//todo: add pass 
+//router
 app.get('/', function(req, res,next) {  
     res.sendFile(__dirname + '/app/views/login.html');
 });
@@ -36,8 +60,18 @@ app.get('/YXJnc2VuIHNwZWVjaCB0ZXN0', function(req, res,next) {
     res.sendFile(__dirname + '/app/views/index.html');
 });
 
-httpServer.listen(PORT);
-winston.info('Argsen Speech server on port : ' + PORT);
+server.listen(PORT);
+
+logger.info('Argsen Speech server on port : ' + PORT);
+
+// setTimeout(() => {
+//     File.streamingMicRecognize(__dirname + '/app/audios/audio_blob_test.flac', 'FLAC', 16000, 'en-US', function(name, data){
+//         logger.debug(name)
+//         logger.debug(data)
+//     })
+// }, 4000);
+
+
 
 io.on('connection', function(client) { 
     
@@ -51,10 +85,10 @@ io.on('connection', function(client) {
 
     client.on('google-data', function(data){
 
-        fs.writeFile(__dirname + '/app/audios/audio_blob_test.wav', data.blob, function(err) {
+        fs.writeFile(__dirname + '/app/audios/audio_blob_google.wav', data.blob, function(err) {
             if(err) return winston.error(err);
 
-            File.convert(__dirname + '/app/audios/audio_blob_test.wav', function(err, filename){
+            File.convert(__dirname + '/app/audios/audio_blob_google.wav', function(err, filename){
 
                 if(err) return winston.error(err);
 
@@ -77,10 +111,10 @@ io.on('connection', function(client) {
 
     client.on('waston-data', function(data){
 
-        fs.writeFile(__dirname + '/app/audios/audio_blob_test.wav', data.blob, function (err) {
+        fs.writeFile(__dirname + '/app/audios/audio_blob_waston.wav', data.blob, function (err) {
             if (err) return winston.error(err);
 
-            File.convert(__dirname + '/app/audios/audio_blob_test.wav', function (err, path) {
+            File.convert(__dirname + '/app/audios/audio_blob_waston.wav', function (err, path) {
 
                 if (err) return winston.error(err);
 
